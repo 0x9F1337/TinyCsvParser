@@ -7,11 +7,26 @@ using TinyCsvParser.Types;
 
 namespace TinyCsvParser.Readers
 {
+    /// <summary>
+    /// Core CSV parser.
+    /// </summary>
     public class CsvLineParser
     {
         public bool Success => State == CsvLineState.Parsed;
+
+        /// <summary>
+        /// Raw string of CSV line. This line is unparsed and remains original.
+        /// </summary>
         public string RawLine { get; private set; }
+
+        /// <summary>
+        /// Parse state. This value will be set when a new instance is created.
+        /// </summary>
         public CsvLineState State { get; private set; }
+
+        /// <summary>
+        /// Parsed CSV fields collection.
+        /// </summary>
         public List<string> ParsedFields => _parsedFields;
 
         private List<string> _parsedFields;
@@ -27,6 +42,10 @@ namespace TinyCsvParser.Readers
             State = TryParse();
         }
 
+        /// <summary>
+        /// Parses given csv line. Internal use only. 
+        /// </summary>
+        /// <returns>Line parse state.</returns>
         private CsvLineState TryParse()
         {
             if ( RawLine.StartsWith( _options.CommentLine ) )
@@ -125,6 +144,11 @@ namespace TinyCsvParser.Readers
             return CsvLineState.Parsed;
         }
 
+        /// <summary>
+        /// Gets CsvCharacterType of given character. Internal use only.
+        /// </summary>
+        /// <param name="characterType">Character.</param>
+        /// <returns>CsvCharacterType</returns>
         private CsvCharacterType GetCharacterType( char characterType )
         {
             if ( characterType == _options.SplitCharacter )
@@ -135,6 +159,12 @@ namespace TinyCsvParser.Readers
                 return CsvCharacterType.Regular;
         }
 
+        /// <summary>
+        /// Gets CsvCharacterType of given character with a specific index. Internal use only.
+        /// </summary>
+        /// <param name="line">Line string. Use RawString.</param>
+        /// <param name="index">Index to look at.</param>
+        /// <returns>CsvCharacterType</returns>
         private CsvCharacterType GetCharacterTypeAt( string line, int index )
         {
             if ( index >= line.Length )

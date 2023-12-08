@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TinyCsvParser.Types
 {
+    /// <summary>
+    /// Helps to create detailed error messages. Used by CsvLineParser internally.
+    /// </summary>
     public class CsvError
     {
         public int Index { get; }

@@ -15,13 +15,18 @@ namespace TinyCsvParser.Readers.MultiReaders
         private readonly FileStream _fileStream;
         private readonly StreamReader _streamReader;
 
+        /// <summary>
+        /// Opens an handle to given file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="options"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
         public CsvFileReader(string filePath, CsvParserOptions options)
             : base(options)
         {
             if (filePath == null) throw new ArgumentNullException(filePath, "file path cannot be null.");
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException(filePath, $"file \"{filePath}\" does not exist.");
+            if (!File.Exists(filePath)) throw new FileNotFoundException(filePath, $"file \"{filePath}\" does not exist.");
 
             _filePath = filePath;
 
@@ -29,6 +34,10 @@ namespace TinyCsvParser.Readers.MultiReaders
             _streamReader = new StreamReader(_fileStream);
         }
 
+        /// <summary>
+        /// Read current line and advance reading position in stream.
+        /// </summary>
+        /// <returns>List of parsed fields from current line.</returns>
         public IEnumerable<List<string>> ReadLines()
         {
             string line = null;
@@ -45,6 +54,9 @@ namespace TinyCsvParser.Readers.MultiReaders
             }
         }
 
+        /// <summary>
+        /// Reset data and stream. Use this if you want to re-read from the same instance.
+        /// </summary>
         public override void Reset()
         {
             base.Reset();

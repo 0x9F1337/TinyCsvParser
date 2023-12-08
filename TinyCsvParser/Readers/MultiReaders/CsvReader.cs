@@ -11,7 +11,6 @@ namespace TinyCsvParser.Readers.MultiReaders
 {
     public class CsvReader : BaseMultiReader
     {
-        private readonly CsvParserOptions _options;
         private readonly IEnumerable<string> _lines;
 
         public CsvReader(IEnumerable<string> lines, CsvParserOptions options)
@@ -20,6 +19,10 @@ namespace TinyCsvParser.Readers.MultiReaders
             _lines = lines;
         }
 
+        /// <summary>
+        /// Read Lines.
+        /// </summary>
+        /// <returns>List of parsed fields from current line.</returns>
         public IEnumerable<List<string>> ReadLines()
         {
             foreach (var line in _lines)

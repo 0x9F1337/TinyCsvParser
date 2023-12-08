@@ -8,13 +8,33 @@ using TinyCsvParser.Types;
 
 namespace TinyCsvParser.Readers.MultiReaders
 {
+    /// <summary>
+    /// Base class that utilizes core CSV parser. Inherit from this to create multi-readers.
+    /// </summary>
     public class BaseMultiReader
     {
+        /// <summary>
+        /// Your parser options.
+        /// </summary>
         public CsvParserOptions ParserOptions { get; set; }
+
+        /// <summary>
+        /// Collects parsing errors during adventure.
+        /// </summary>
+        /// 
         public StringBuilder Errors { get; set; }
+        
+        /// <summary>
+        /// Current line number. Advances automatically.
+        /// </summary>
         public int LineNumber { get; private set; }
+
         public bool HasErrors => Errors.Length > 0;
 
+        /// <summary>
+        /// Self explanatory.
+        /// </summary>
+        /// <param name="options">If options is null, Standard configuration will be used.</param>
         public BaseMultiReader(CsvParserOptions options)
         {
             if (options == null) options = CsvParserOptions.Default;
@@ -23,6 +43,12 @@ namespace TinyCsvParser.Readers.MultiReaders
             ParserOptions = options;
         }
 
+        /// <summary>
+        /// Utilizes CsvLineParser. Exception is only thrown when CsvParserOptions.ThrowOnParseError is true.
+        /// </summary>
+        /// <param name="line">Csv Line.</param>
+        /// <returns>Csv Fields generated from given csv line or null, when given csv-line should be ignored due to comment identification or an unexpected state.</returns>
+        /// <exception cref="CsvParseErrorException">Only when CsvParserOptions.ThrowOnParseError is true.</exception>
         public List<string> ReadLine(string line)
         {
             LineNumber++;
@@ -54,6 +80,9 @@ namespace TinyCsvParser.Readers.MultiReaders
             return null;
         }
 
+        /// <summary>
+        /// Refreshes data.
+        /// </summary>
         public virtual void Reset()
         {
             LineNumber = 0;

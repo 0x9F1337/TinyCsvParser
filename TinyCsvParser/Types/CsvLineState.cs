@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TinyCsvParser.Types
 {
+    /// <summary>
+    /// State of each line. Set by CsvLineParser internally. Can be used to identify errors.
+    /// </summary>
     public enum CsvLineState
     {
         None,
